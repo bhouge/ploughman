@@ -11,7 +11,91 @@ var listenerCount = 0;
 var supremeLeaderCount = 0;
 var mysteryUserCount = 0;
 
+var birdFileGroups = [0, 3, 8, 13, 18, 23, 28, 33, 40, 45, 50, 53, 58, 63, 68, 73, 76];
+
+var birdFileNames = [
+	"snd_bird_barred_1.wav",
+	"snd_bird_barred_2.wav",
+	"snd_bird_barred_3.wav",
+	"snd_bird_barredowl_1.ogg",
+	"snd_bird_barredowl_2.ogg",
+	"snd_bird_barredowl_3.ogg",
+	"snd_bird_barredowl_4.ogg",
+	"snd_bird_barredowl_5.ogg",
+	"snd_bird_bluejay_1.ogg",
+	"snd_bird_bluejay_2.ogg",
+	"snd_bird_bluejay_3.ogg",
+	"snd_bird_bluejay_4.ogg",
+	"snd_bird_bluejay_5.ogg",
+	"snd_bird_catbird_1.ogg",
+	"snd_bird_catbird_2.ogg",
+	"snd_bird_catbird_3.ogg",
+	"snd_bird_catbird_4.ogg",
+	"snd_bird_catbird_5.ogg",
+	"snd_bird_catbird_alt_1.ogg",
+	"snd_bird_catbird_alt_2.ogg",
+	"snd_bird_catbird_alt_3.ogg",
+	"snd_bird_catbird_alt_4.ogg",
+	"snd_bird_catbird_alt_5.ogg",
+	"snd_bird_chickadee_06.ogg",
+	"snd_bird_chickadee_07.ogg",
+	"snd_bird_chickadee_08.ogg",
+	"snd_bird_chickadee_1.ogg",
+	"snd_bird_chickadee_2.ogg",
+	"snd_bird_crow_1.ogg",
+	"snd_bird_crow_2.ogg",
+	"snd_bird_crow_3.ogg",
+	"snd_bird_crow_4.ogg",
+	"snd_bird_crow_5.ogg",
+	"snd_bird_generic_1_1.ogg",
+	"snd_bird_generic_1_2.ogg",
+	"snd_bird_generic_1_3.ogg",
+	"snd_bird_generic_1_4.ogg",
+	"snd_bird_generic_1_5.ogg",
+	"snd_bird_generic_1_6.ogg",
+	"snd_bird_generic_1_7.ogg",
+	"snd_bird_generic_2_1.ogg",
+	"snd_bird_generic_2_2.ogg",
+	"snd_bird_generic_2_3.ogg",
+	"snd_bird_generic_2_4.ogg",
+	"snd_bird_generic_2_5.ogg",
+	"snd_bird_generic_3_1.ogg",
+	"snd_bird_generic_3_2.ogg",
+	"snd_bird_generic_3_3.ogg",
+	"snd_bird_generic_3_4.ogg",
+	"snd_bird_generic_3_5.ogg",
+	"snd_bird_goose_1.ogg",
+	"snd_bird_goose_2.ogg",
+	"snd_bird_goose_3.ogg",
+	"snd_bird_mourningdove_1.ogg",
+	"snd_bird_mourningdove_2.ogg",
+	"snd_bird_mourningdove_3.ogg",
+	"snd_bird_mourningdove_4.ogg",
+	"snd_bird_mourningdove_5.ogg",
+	"snd_bird_robin_1.ogg",
+	"snd_bird_robin_2.ogg",
+	"snd_bird_robin_3.ogg",
+	"snd_bird_robin_4.ogg",
+	"snd_bird_robin_5.ogg",
+	"snd_bird_screech_1.wav",
+	"snd_bird_screech_2.wav",
+	"snd_bird_screech_3.wav",
+	"snd_bird_screech_4.wav",
+	"snd_bird_screech_5.wav",
+	"snd_bird_titmouse_1.ogg",
+	"snd_bird_titmouse_2.ogg",
+	"snd_bird_titmouse_3.ogg",
+	"snd_bird_titmouse_4.ogg",
+	"snd_bird_titmouse_5.ogg",
+	"snd_bird_woodpecker_1.ogg",
+	"snd_bird_woodpecker_2.ogg",
+	"snd_bird_woodpecker_3.ogg"];
+                     
+
 var directoryPrefix = '/sounds/compressed/';
+var birdDirectoryPrefix = 'various_birds';
+var peopleDirectoryPrefix = 'various_people';
+
 var folderNameArray = [['chirps1', ['chirps1a.mp3',
                                     'chirps1b.mp3',
                                     'chirps1c.mp3']],
@@ -93,7 +177,23 @@ io.on('connection', function(socket){
 	    	
 	    	//var fileToPush = __dirname + '/sounds/yooo.mp3';
     		//pushSoundToClient(fileToPush, 0, socket);
-    		
+	    	
+	    	var birdFileIndex = Math.floor(Math.random() * (birdFileGroups.length - 1));
+	    	console.log('birdFileIndex: ' + birdFileIndex);
+	    	var birdGroupStartIndex = birdFileGroups[birdFileIndex];
+	    	console.log('birdGroupStartIndex: ' + birdGroupStartIndex);
+	    	var numberOfBirdVariations = birdFileGroups[birdFileIndex + 1] - birdFileGroups[birdFileIndex];
+	    	console.log('numberOfBirdVariations: ' + numberOfBirdVariations);
+	    	for (var i = 0; i < numberOfBirdVariations ; i++) {
+    			var nextFileName = birdFileNames[birdGroupStartIndex + i];
+    			console.log(nextFileName);
+	    		var fileToPush = __dirname + directoryPrefix + birdDirectoryPrefix + '/' + nextFileName;
+	    		console.log(fileToPush);
+	    		pushSoundToClient(fileToPush, i, socket);
+	    	}
+	    	
+	    	/*
+	    	//old way, prior to Michael's sound drop
 	    	//pick random folder
 	    	var randomFolderID = Math.floor(Math.random() * folderNameArray.length);
 	    	console.log(randomFolderID);
@@ -110,6 +210,7 @@ io.on('connection', function(socket){
 	    		console.log(fileToPush);
 	    		pushSoundToClient(fileToPush, i, socket);
 	    	}
+	    	*/
 	    	
 	    	//how the birds do it...
 	    	/*
