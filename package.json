@@ -1,0 +1,9 @@
+{
+  "name": "Ploughman",
+  "version": "0.1.0",
+  "description": "An aural reconsideration of a ploughman's lunch",
+  "dependencies": {
+    "express": "^4.15.2",
+    "socket.io": "^2.0.3"
+  }
+}
