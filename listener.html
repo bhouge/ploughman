@@ -25,22 +25,26 @@
 <h2>by Ben Houge and David Matchett with food from Borough Market, prepared by Chef Tim Kelsey</h2>
 
 <p>
-Some useful and illuminating explanatory text will go here.
-If you don't like your bird, you may refresh this web page to receive a new one. 
-Bird sounds were designed by Michael Sweet and are excerpted from <i>Walden, a game</i>, a first person simulation of the life of American philosopher Henry David Thoreau during his experiment in self-reliant living at Walden Pond in 1845.
+The sonic landscape of London's Borough Market is characterized by 
+the lively chatter of voices from around the world coming together
+in an environment that has stood as a community gathering place for centuries.
+
+This web application presents the cries of some of the market vendors recorded on July 6-7, 2017,
+capturing some of the spontaneous aural interplay that continues to beckon
+passersby to Borough Market.
 </p>
 
 <div id="controlButtons">
-<button id="listen" class="off">LISTEN</button>
+<button id="listen" class="off">LOADING...</button>
 </div>
 
 <h3>
-Press "Listen" to begin. 
+Press "Listen" to participate. 
 Turn your phone upside down to help the sound propagate and tap it periodically 
 to keep it from going to sleep during the performance.
 Please ensure that your volume is turned up and that your phone is not in silent mode.
 Chrome or Firefox are the recommended browsers on Android devices.
-This web page will also work on a laptop (in which case inverting the device is not recommended.)
+This web page will also work on a laptop (in which case inverting the device is not recommended).
 </h3>
 
 <script src="/socket.io/socket.io.js"></script>
@@ -119,13 +123,14 @@ socket.on('get type', function(msg){
 });
 socket.on('birds', function(msg){
 	//console.log("client's secret message is " + msg);
-	alert('this many bird variations: ' + msg);
+	//alert('this many bird variations: ' + msg);
 });
 socket.on('audio', function(msg){
     console.log('audio received!');
     audioCtx.decodeAudioData(msg.buffer, function(buffer) {
     	audioBuffers[msg.index] = buffer;
     	buffersAreLoaded = true;
+    	listenButton.innerHTML = 'LISTEN';
       }, 
       function(error) {
           console.error('decodeAudioData error', error);

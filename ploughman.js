@@ -11,8 +11,41 @@ var listenerCount = 0;
 var supremeLeaderCount = 0;
 var mysteryUserCount = 0;
 
-var birdFileGroups = [0, 3, 8, 13, 18, 23, 28, 33, 40, 45, 50, 53, 58, 63, 68, 73, 76];
+var birdFileGroups = [0, 8, 22, 29];
 
+//var birdFileGroups = [0, 3, 8, 13, 18, 23, 28, 33, 40, 45, 50, 53, 58, 63, 68, 73, 76];
+
+var birdFileNames = ["cherries01.mp3",
+                   "cherries02.mp3",
+                   "cherries03.mp3",
+                   "cherries04.mp3",
+                   "cherries05.mp3",
+                   "cherries06.mp3",
+                   "cherries07.mp3",
+                   "cherries08.mp3",
+                   "oysters01.mp3",
+                   "oysters02.mp3",
+                   "oysters03.mp3",
+                   "oysters04.mp3",
+                   "oysters05.mp3",
+                   "oysters06.mp3",
+                   "oysters07.mp3",
+                   "oysters08.mp3",
+                   "oysters09.mp3",
+                   "oysters10.mp3",
+                   "oysters11.mp3",
+                   "oysters12.mp3",
+                   "oysters13.mp3",
+                   "oysters14.mp3",
+                   "paul01.mp3",
+                   "paul02.mp3",
+                   "paul03.mp3",
+                   "paul04.mp3",
+                   "paul05.mp3",
+                   "paul06.mp3",
+                   "paul07.mp3"]
+
+/*
 var birdFileNames = [
                  	"snd_bird_barred_1.mp3",
                 	"snd_bird_barred_2.mp3",
@@ -91,6 +124,8 @@ var birdFileNames = [
                 	"snd_bird_woodpecker_2.mp3",
                 	"snd_bird_woodpecker_3.mp3"];
                      
+*/
+
 var peopleFileNames = [
 					"AVeryVineyPlant.mp3",
 					"AllGilfeather.mp3",
@@ -141,7 +176,8 @@ var peopleFileNames = [
 					"WereTheOnlyFarmInTheUS.mp3"];
 
 var directoryPrefix = '/sounds/compressed/';
-var birdDirectoryPrefix = 'various_birds';
+//var birdDirectoryPrefix = 'various_birds';
+var birdDirectoryPrefix = 'BoroughVendors';
 var peopleDirectoryPrefix = 'various_people';
 
 var folderNameArray = [['chirps1', ['chirps1a.mp3',
@@ -211,7 +247,7 @@ io.on('connection', function(socket){
 	  	//you could add a property that is name, so we can know who's disconnecting as well
 	  	var splitMSG = msg.split(' ');
 	    if (splitMSG[0] == 'listener') {
-	    	console.log(msg);
+	    	//console.log(msg);
 	    	socket.category = splitMSG[0];
 	    	//socket.dinerID = deviceIDs[splitMSG[1]];
 	    	//connections[socket.dinerID] = socket.id;
@@ -227,16 +263,16 @@ io.on('connection', function(socket){
     		//pushSoundToClient(fileToPush, 0, socket);
 	    	
 	    	var birdFileIndex = Math.floor(Math.random() * (birdFileGroups.length - 1));
-	    	console.log('birdFileIndex: ' + birdFileIndex);
+	    	//console.log('birdFileIndex: ' + birdFileIndex);
 	    	var birdGroupStartIndex = birdFileGroups[birdFileIndex];
-	    	console.log('birdGroupStartIndex: ' + birdGroupStartIndex);
+	    	//console.log('birdGroupStartIndex: ' + birdGroupStartIndex);
 	    	var numberOfBirdVariations = birdFileGroups[birdFileIndex + 1] - birdFileGroups[birdFileIndex];
-	    	console.log('numberOfBirdVariations: ' + numberOfBirdVariations);
+	    	//console.log('numberOfBirdVariations: ' + numberOfBirdVariations);
 	    	for (var i = 0; i < numberOfBirdVariations ; i++) {
     			var nextFileName = birdFileNames[birdGroupStartIndex + i];
-    			console.log(nextFileName);
+    			//console.log(nextFileName);
 	    		var fileToPush = __dirname + directoryPrefix + birdDirectoryPrefix + '/' + nextFileName;
-	    		console.log(fileToPush);
+	    		//console.log(fileToPush);
 	    		pushSoundToClient(fileToPush, i, socket);
 	    	}
 	    	
@@ -257,15 +293,15 @@ io.on('connection', function(socket){
 	    		peopleIndices.push(i);
 	    	}
 	    	
-	    	console.log(peopleIndices);
+	    	//console.log(peopleIndices);
 	    	
 	    	for (var i = 0; i < numberOfPeopleToLoad; i++) {
 	    		//current index to swap, counting from the end
 	    		var currentIndex = (numberOfPeopleToLoad - 1) - i;
-	    		console.log('currentIndex: ' + currentIndex);
+	    		//console.log('currentIndex: ' + currentIndex);
 	    		//pick an index to swap with
 	    		var randomIndex = Math.floor(Math.random() * currentIndex);
-	    		console.log('randomIndex: ' + randomIndex);
+	    		//console.log('randomIndex: ' + randomIndex);
 	    		//could do a check to not do anything if you happened to have randomly picked the same index, 
 	    		//which is perfectly valid and there should then be no change
 	    		//store that value that is in that slot currently
@@ -274,10 +310,10 @@ io.on('connection', function(socket){
 	    		peopleIndices[randomIndex] = peopleIndices[currentIndex];
 	    		//put the stored value in the current index's slot
 	    		peopleIndices[currentIndex] = swap;
-	    		console.log("swapped value of " + randomIndex + " with value of " + currentIndex);
+	    		//console.log("swapped value of " + randomIndex + " with value of " + currentIndex);
 	    	}
 	    	
-	    	console.log(peopleIndices);
+	    	//console.log(peopleIndices);
 	    	
 	    	/*
 	    	for (var i = 0; i < numberOfPeopleToLoad; i++) {
