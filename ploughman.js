@@ -91,6 +91,54 @@ var birdFileNames = [
                 	"snd_bird_woodpecker_2.mp3",
                 	"snd_bird_woodpecker_3.mp3"];
                      
+var peopleFileNames = [
+					"AVeryVineyPlant.mp3",
+					"AllGilfeather.mp3",
+					"AllThatsBrusselsSprouts.mp3",
+					"AnotherNineAcres.mp3",
+					"ButIfEverythingGoesWell.mp3",
+					"Butternut.mp3",
+					"CantHalfAss.mp3",
+					"DadLookAtThisOne.mp3",
+					"DigPotatoesInTheRain.mp3",
+					"DuringTheSummer.mp3",
+					"EndOfTheDay.mp3",
+					"FallCarrots.mp3",
+					"FieldFullOfWeeds.mp3",
+					"FrostEvent.mp3",
+					"GetWorkDone.mp3",
+					"ItsTheJob.mp3",
+					"LikeManyThingsThatWeGrow.mp3",
+					"LooseGreensEggplant.mp3",
+					"MostFarmsGrow.mp3",
+					"OnlySellToChefs.mp3",
+					"OrangeFleshSweetPotato.mp3",
+					"ParForTheCourse.mp3",
+					"PrettyFarApart.mp3",
+					"ReallyCoolVegetable.mp3",
+					"ReallyNiceWhiteFleshedTurnip.mp3",
+					"ReallyRareVegetable.mp3",
+					"SoSinceWeWannaDoItOrganic.mp3",
+					"SoWeMadeSure.mp3",
+					"SoYeahWePlanted.mp3",
+					"SpecializeInHeirlooms.mp3",
+					"TangibleResults.mp3",
+					"ThatsABigTurnip.mp3",
+					"TheseAreAllCuring.mp3",
+					"ThisBlockIsHeirloomRutabaga.mp3",
+					"ToughenedUp.mp3",
+					"TraditionalSweetPotato.mp3",
+					"TwiceAsMuchButternut.mp3",
+					"VeryPopular.mp3",
+					"Waldoboro.mp3",
+					"WaldoboroGreenNeck.mp3",
+					"WeGrewAbout.mp3",
+					"WeHaveMoreDemand.mp3",
+					"WeHaveToTransplantThis.mp3",
+					"WeLoveWhatWeDo.mp3",
+					"WePickThingsUp.mp3",
+					"WereRestaurantGrowers.mp3",
+					"WereTheOnlyFarmInTheUS.mp3"];
 
 var directoryPrefix = '/sounds/compressed/';
 var birdDirectoryPrefix = 'various_birds';
@@ -191,6 +239,57 @@ io.on('connection', function(socket){
 	    		console.log(fileToPush);
 	    		pushSoundToClient(fileToPush, i, socket);
 	    	}
+	    	
+	    	socket.emit('birds', numberOfBirdVariations);
+	    	
+	    	var numberOfPeopleToLoad;
+	    	if (peopleFileNames.length > 10) {
+	    		numberOfPeopleToLoad = 10;
+	    	} else {
+	    		numberOfPeopleToLoad = peopleFileNames.length;
+	    	}
+	    	
+	    	//generate numberOfPeopleToLoad unique indices within peopleFileNames...
+	    	//ok, implement that sorting algorithm...
+	    	//you should remember what it's called...Fisher-Yates!
+	    	var peopleIndices= [];
+	    	for (var i = 0; i < numberOfPeopleToLoad; i++) {
+	    		peopleIndices.push(i);
+	    	}
+	    	
+	    	console.log(peopleIndices);
+	    	
+	    	for (var i = 0; i < numberOfPeopleToLoad; i++) {
+	    		//current index to swap, counting from the end
+	    		var currentIndex = (numberOfPeopleToLoad - 1) - i;
+	    		console.log('currentIndex: ' + currentIndex);
+	    		//pick an index to swap with
+	    		var randomIndex = Math.floor(Math.random() * currentIndex);
+	    		console.log('randomIndex: ' + randomIndex);
+	    		//could do a check to not do anything if you happened to have randomly picked the same index, 
+	    		//which is perfectly valid and there should then be no change
+	    		//store that value that is in that slot currently
+	    		var swap = peopleIndices[randomIndex];
+	    		//put the current index's value in that slot
+	    		peopleIndices[randomIndex] = peopleIndices[currentIndex];
+	    		//put the stored value in the current index's slot
+	    		peopleIndices[currentIndex] = swap;
+	    		console.log("swapped value of " + randomIndex + " with value of " + currentIndex);
+	    	}
+	    	
+	    	console.log(peopleIndices);
+	    	
+	    	/*
+	    	for (var i = 0; i < numberOfPeopleToLoad; i++) {
+	    		
+	    		//peopleFileNames;
+	    		var nextFileName = birdFileNames[birdGroupStartIndex + i];
+    			console.log(nextFileName);
+	    		var fileToPush = __dirname + directoryPrefix + birdDirectoryPrefix + '/' + nextFileName;
+	    		console.log(fileToPush);
+	    		pushSoundToClient(fileToPush, i, socket);
+	    	}
+	    	*/
 	    	
 	    	/*
 	    	//old way, prior to Michael's sound drop
